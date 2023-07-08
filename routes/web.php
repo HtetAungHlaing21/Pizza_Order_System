@@ -2,14 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 
-Route::redirect('/', 'loginPage');
-Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
-Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
-Route::get('dashboard', [AuthController::class, 'dashboard'])->name('auth#dashboard');
+//Auth
+Route::middleware(['login_auth'])->group(function(){
+    Route::redirect('/', 'loginPage');
+    Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
+    Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
+});
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified' ])->group(function () {
+Route::middleware(['auth' ])->group(function () {
+    Route::get('dashboard', [AuthController::class, 'dashboard'])->name('auth#dashboard');
     //admin
     Route::middleware(['admin_auth'])->group(function () {
         //Category
@@ -20,6 +24,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified' 
             Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
             Route::get('updatePage/{id}', [CategoryController::class, 'updatePage'])->name('category#updatePage');
             Route::post('update', [CategoryController::class, 'update'])->name('category#update');
+        });
+
+        // Account
+        Route::group(['prefix' => 'account'], function(){
+            Route::get('details', [AccountController::class, 'details'])->name('account#details');
+            Route::get('updatePage', [AccountController::class, 'updatePage'])->name('account#updatePage');
+            Route::post('update/{id}', [AccountController::class, 'update'])->name('account#update');
+            Route::get('changePassword', [AccountController::class, 'changePasswordPage'])->name('account#changePasswordPage');
+            Route::post('change/password', [AccountController::class, 'changePassword'])->name('account#changePassword');
         });
 
     });

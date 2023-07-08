@@ -13,7 +13,9 @@
     <title> @yield('title') </title>
 
     <!-- Font Awesome Link -->
-    <link rel=" stylesheet " href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css " integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin=" anonymous
+    <link rel=" stylesheet " href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css "
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin=" anonymous
         " referrerpolicy="no-referrer " />
 
     <!-- Fontfaces CSS-->
@@ -49,14 +51,14 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="{{asset("Admin/images/icon/logo.png")}}" alt="Cool Admin" />
+                    <img src="{{ asset('Admin/images/icon/logo.png') }}" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <a href="{{route("category#list")}}">
+                            <a href="{{ route('category#list') }}">
                                 <i class="fa-solid fa-list"></i>Category</a>
                         </li>
                     </ul>
@@ -77,33 +79,63 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="{{asset('Admin/images/icon/avatar-01.jpg')}}" alt="{{Auth::user()->name}}" />
+                                            @if (Auth::user()->image == null)
+                                                @if (Auth::user()->gender == 'male')
+                                                    <img src="{{ asset('Images/male_profile.png') }}"
+                                                        alt="male profile">
+                                                @else
+                                                    <img src="{{ asset('Images/female_profile.png') }}"
+                                                        alt="female profile">
+                                                @endif
+                                            @else
+                                                <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="">
+                                                    alt="">
+                                            @endif
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"> {{Auth::user()->name}} </a>
+                                            <a class="js-acc-btn" href="#"> {{ Auth::user()->name }} </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{asset('Admin/images/icon/avatar-01.jpg')}}" alt="{{Auth::user()->name}}" />
+                                                        @if (Auth::user()->image == null)
+                                                            @if (Auth::user()->gender == 'male')
+                                                                <img src="{{ asset('Images/male_profile.png') }}"
+                                                                    alt="male profile">
+                                                            @else
+                                                                <img src="{{ asset('Images/female_profile.png') }}"
+                                                                    alt="female profile">
+                                                            @endif
+                                                        @else
+                                                            <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="">
+                                                                alt="">
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">{{Auth::user()->name}}</a>
+                                                        <a href="#">{{ Auth::user()->name }}</a>
                                                     </h5>
-                                                    <span class="email">{{Auth::user()->email}}</span>
+                                                    <span class="email">{{ Auth::user()->email }}</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#" class="text-center btn-outline-primary">
+                                                    <a href="{{ route('account#details') }}"
+                                                        class="text-center btn-outline-primary">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="{{ route('account#changePasswordPage') }}"
+                                                        class="text-center btn-outline-primary">
+                                                        <i class="zmdi zmdi-account"></i>Change Password</a>
+                                                </div>
+                                            </div>
                                             <div class="account-dropdown__footer p-3">
-                                                <form action="{{route('logout')}}" method="post" class='row'>
+                                                <form action="{{ route('logout') }}" method="post" class='row'>
                                                     @csrf
                                                     <button type="submit" class="btn-outline-primary col p-2">
                                                         <i class="zmdi zmdi-power me-4"></i>Logout
@@ -131,7 +163,7 @@
     </div>
 
 
-   <!-- Jquery JS-->
+    <!-- Jquery JS-->
     <script src="{{ asset('Admin/vendor/jquery-3.2.1.min.js') }}"></script>
     <!-- Bootstrap JS-->
     <script src="{{ asset('Admin/vendor/bootstrap-4.1/popper.min.js') }}"></script>
@@ -159,5 +191,3 @@
 
 </html>
 <!-- end document-->
-
-

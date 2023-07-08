@@ -50,7 +50,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                     @if (session('updateSuccess'))
+                    @if (session('updateSuccess'))
                         <div class="alert alert-warning alert-dismissible fade show col-5" role="alert">
                             {{ session('updateSuccess') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -97,7 +97,7 @@
                         </table>
                     </div>
                 @else
-                    <h4 class="text-secondary mt-5">There is no category.</h4>
+                    <h4 class="text-secondary mt-5 text-center">There is no category.</h4>
                 @endif
                 <!-- END DATA TABLE -->
                 {{$categories->appends(request()->query())->links()}}
