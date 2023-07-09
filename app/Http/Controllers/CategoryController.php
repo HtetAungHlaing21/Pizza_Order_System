@@ -15,7 +15,7 @@ class CategoryController extends Controller
             $query->where('name', 'like', '%'.$searchKey.'%');
         })
         ->orderBy('created_at', 'desc')
-        ->paginate(4);;
+        ->paginate(4);
         return view('Admin.Category.list',compact('categories'));
     }
 

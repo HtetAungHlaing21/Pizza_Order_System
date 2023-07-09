@@ -58,6 +58,10 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
+                            <a href="{{ route('account#adminList') }}">
+                                <i class="fa-solid fa-users"></i>Admins</a>
+                        </li>
+                        <li>
                             <a href="{{ route('category#list') }}">
                                 <i class="fa-solid fa-list"></i>Category</a>
                         </li>
@@ -89,7 +93,6 @@
                                                 @endif
                                             @else
                                                 <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="">
-                                                    alt="">
                                             @endif
                                         </div>
                                         <div class="content">
@@ -109,7 +112,6 @@
                                                             @endif
                                                         @else
                                                             <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="">
-                                                                alt="">
                                                         @endif
                                                     </a>
                                                 </div>
@@ -131,7 +133,7 @@
                                                 <div class="account-dropdown__item">
                                                     <a href="{{ route('account#changePasswordPage') }}"
                                                         class="text-center btn-outline-primary">
-                                                        <i class="zmdi zmdi-account"></i>Change Password</a>
+                                                        <i class="fa-solid fa-key"></i></i>Change Password</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer p-3">

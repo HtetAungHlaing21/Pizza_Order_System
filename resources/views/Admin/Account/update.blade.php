@@ -27,12 +27,12 @@
                                     <div>
                                         @if (Auth::user()->image == null)
                                             @if (Auth::user()->gender == 'male')
-                                                <img src="{{ asset('Images/male_profile.png') }}" alt="male profile">
+                                                <img src="{{ asset('Images/male_profile.png') }}" alt="male profile" class="img-thumbnail shadow-sm">
                                             @else
-                                                <img src="{{ asset('Images/female_profile.png') }}" alt="female profile">
+                                                <img src="{{ asset('Images/female_profile.png') }}" alt="female profile" class="img-thumbnail shadow-sm">
                                             @endif
                                         @else
-                                            <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="">
+                                            <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="" class="img-thumbnail shadow-sm">
                                         @endif
                                     </div>
                                     <input type="file" name="image" id=""

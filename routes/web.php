@@ -33,6 +33,10 @@ Route::middleware(['auth' ])->group(function () {
             Route::post('update/{id}', [AccountController::class, 'update'])->name('account#update');
             Route::get('changePassword', [AccountController::class, 'changePasswordPage'])->name('account#changePasswordPage');
             Route::post('change/password', [AccountController::class, 'changePassword'])->name('account#changePassword');
+            Route::get('adminList', [AccountController::class, 'adminList'])->name('account#adminList');
+            Route::get('admin/delete/{id}', [AccountController::class, 'delete'])->name('account#adminDelete');
+            Route::get('changeRole/{id}', [AccountController::class, 'changeRole'])->name('account#changerole');
+            Route::post('role/change/{id}', [AccountController::class, 'roleChange'])->name('account#rolechange');
         });
 
     });
