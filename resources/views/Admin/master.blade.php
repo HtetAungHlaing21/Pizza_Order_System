@@ -65,6 +65,10 @@
                             <a href="{{ route('category#list') }}">
                                 <i class="fa-solid fa-list"></i>Category</a>
                         </li>
+                        <li>
+                            <a href="{{ route('product#list') }}">
+                               <i class="fa-solid fa-pizza-slice"></i>Pizza</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

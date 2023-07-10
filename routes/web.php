@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 
 //Auth
@@ -37,6 +38,17 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('admin/delete/{id}', [AccountController::class, 'delete'])->name('account#adminDelete');
             Route::get('changeRole/{id}', [AccountController::class, 'changeRole'])->name('account#changerole');
             Route::post('role/change/{id}', [AccountController::class, 'roleChange'])->name('account#rolechange');
+        });
+
+        //Pizza
+        Route::group(['prefix'=>'product'], function(){
+            Route::get('list', [ProductController::class, 'list'])->name('product#list');
+            Route::get('createPage', [ProductController::class, 'createPage'])->name('product#createPage');
+            Route::post('create', [ProductController::class, 'create'])->name('product#create');
+            Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product#delete');
+            Route::get('details/{id}', [ProductController::class, 'details'])->name('product#details');
+            Route::get('updatePage/{id}', [ProductController::class, 'updatePage'])->name('product#updatePage');
+            Route::post('update', [ProductController::class, 'update'])->name('product#update');
         });
 
     });

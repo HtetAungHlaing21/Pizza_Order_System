@@ -1,6 +1,6 @@
 @extends('Admin.master')
 
-@section('title', 'Account Update')
+@section('title', 'Pizza Update')
 
 @section('content')
     <div class="section__content section__content--p30">
@@ -16,24 +16,16 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            <h3 class="text-center title-2">Edit Details</h3>
+                            <h3 class="text-center title-2">Edit Pizza</h3>
                         </div>
                         <hr>
-                        <form action="{{ route('account#update', Auth::user()->id) }}" method="post"
-                            novalidate="novalidate" enctype="multipart/form-data">
+                        <form action="{{route('product#update')}}" method="post" novalidate="novalidate" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-4 offset-1">
                                     <div>
-                                        @if (Auth::user()->image == null)
-                                            @if (Auth::user()->gender == 'male')
-                                                <img src="{{ asset('Images/male_profile.png') }}" alt="male profile" class="img-thumbnail shadow-sm">
-                                            @else
-                                                <img src="{{ asset('Images/female_profile.png') }}" alt="female profile" class="img-thumbnail shadow-sm">
-                                            @endif
-                                        @else
-                                            <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="" class="img-thumbnail shadow-sm">
-                                        @endif
+                                        <img src="{{ asset('storage/' . $pizza->image) }}" alt=""
+                                            class="img-thumbnail shadow-sm">
                                     </div>
                                     <input type="file" name="image" id=""
                                         class="form-control my-4 @error('image') is-invalid @enderror">
@@ -42,6 +34,7 @@
                                             <small class="text-danger"> {{ $message }} </small>
                                         @enderror
                                     </div>
+                                    <input type="hidden" name="id" value={{$pizza->id}}>
                                     <div class="my-5">
                                         <button id="payment-button" type="submit" class="btn btn-lg btn-primary btn-block">
                                             <span id="payment-button-amount">Update</span>
@@ -54,7 +47,7 @@
                                         <label class="control-label mb-1">Name</label>
                                         <input name="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ old('name', Auth::user()->name) }}">
+                                            value="{{ old('name', $pizza->name) }}">
                                         <div class="invalid-feedback">
                                             @error('name')
                                                 <small class="text-danger"> {{ $message }} </small>
@@ -62,57 +55,55 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label mb-1">Gender</label>
-                                        <select name="gender" id=""
-                                            class="form-select @error('gender') is-invalid @enderror">
-                                            <option value="">Choose your gender</option>
-                                            <option value="male" @if (Auth::user()->gender == 'male') selected @endif>Male
-                                            </option>
-                                            <option value="female" @if (Auth::user()->gender == 'female') selected @endif>Female
-                                            </option>
+                                        <label class="control-label mb-1">Category</label>
+                                        <select name="category" id=""
+                                            class="form-select @error('category') is-invalid @enderror">
+                                            <option value="">Choose Pizza Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{$category->id}}" @if ($category->id == $pizza->category_id) selected @endif  > {{$category->name}} </option>
+                                            @endforeach
                                         </select>
                                         <div class="invalid-feedback">
-                                            @error('gender')
+                                            @error('category')
                                                 <small class="text-danger"> {{ $message }} </small>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label mb-1">Role</label>
-                                        <input name="role" type="text" class="form-control"
-                                            value="{{ old('role', Auth::user('role')) }}" disabled readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-1">Phone Number</label>
-                                        <input name="phoneNumber" type="text"
-                                            class="form-control @error('phoneNumber') is-invalid @enderror"
-                                            value="{{ old('phoneNumber', Auth::user()->phone_number) }}">
+                                        <label class="control-label mb-1">Description</label>
+                                        <textarea name="description" id="" cols="30" rows="7"  class="form-control @error('description') is-invalid @enderror">{{ old('description', $pizza->description) }}</textarea>
                                         <div class="invalid-feedback">
-                                            @error('phoneNumber')
+                                            @error('description')
                                                 <small class="text-danger"> {{ $message }} </small>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label mb-1">Email Address</label>
-                                        <input name="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ old('email', Auth::user()->email) }}">
+                                        <label class="control-label mb-1">Price</label>
+                                        <input name="price" type="number"
+                                            class="form-control @error('price') is-invalid @enderror"
+                                            value="{{ old('price', $pizza->price) }}">
                                         <div class="invalid-feedback">
-                                            @error('email')
+                                            @error('price')
                                                 <small class="text-danger"> {{ $message }} </small>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label mb-1">Address</label>
-                                        <textarea name="address" id="" cols="30" rows="10" placeholder="Enter your full address"
-                                            class="form-control @error('address') is-invalid @enderror"> {{ old('address', Auth::user()->address) }} </textarea>
+                                        <label class="control-label mb-1">Waiting Time</label>
+                                        <input name="waitingTime" type="number"
+                                            class="form-control @error('waitingTime') is-invalid @enderror"
+                                            value="{{ old('waitingTime', $pizza->waiting_time) }}">
                                         <div class="invalid-feedback">
-                                            @error('address')
+                                            @error('waitingTime')
                                                 <small class="text-danger"> {{ $message }} </small>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label mb-1">Last Updated Date</label>
+                                        <input class="form-control" disabled
+                                            value="{{ $pizza->updated_at->format('j-F-Y')}}">
                                     </div>
                                 </div>
                             </div>
