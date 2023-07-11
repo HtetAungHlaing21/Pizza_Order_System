@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -56,8 +57,14 @@ Route::middleware(['auth' ])->group(function () {
 
     //User
     Route::middleware(['user_auth'])->group(function () {
-        Route::get('user/customer', function () {
-            return view('User.customer');
-        })->name('user#customer');
+        Route::get('user/home', [UserController::class, 'home'])->name('user#home');
+
+        Route::group(['prefix'=>'account'], function(){
+            Route::get('details', [UserController::class, 'details'])->name('useraccount#details');
+            Route::get('updatePage', [UserController::class, 'updatePage'])->name('useraccount#updatePage');
+            Route::post('update/{id}', [UserController::class, 'update'])->name('useraccount#update');
+            Route::get('changePassword', [UserController::class, 'changePasswordPage'])->name('useraccount#changePasswordPage');
+            Route::post('password/change', [UserController::class, 'changePassword'])->name('useraccount#changePassword');
+        });
     });
 });
