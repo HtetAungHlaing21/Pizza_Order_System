@@ -19,7 +19,21 @@ class UserController extends Controller
     {
         $categories = Category::get();
         $products = Product::orderBy('updated_at', 'desc')->get();
-        return view('User.home', compact('categories', 'products'));
+        return view('User.Home.home', compact('categories', 'products'));
+    }
+
+    //Home page-category filter
+    public function filter($id){
+        $categories = Category::get();
+        $products = Product::where('category_id', $id)->get();
+        return view('User.Home.home', compact('categories', 'products'));
+    }
+
+    //Pizza Detials Page
+    public function pizzaDetails($id){
+        $pizzas = Product::get();
+        $pizza = Product::where('id', $id)->first();
+        return view('User.Home.details', compact('pizzas', 'pizza'));
     }
 
     //Details Page
@@ -72,6 +86,7 @@ class UserController extends Controller
         }
         return back()->with(['notMatch'=>'Old Password does not match! Try Again!']);
     }
+
 
     //check validation
     private function checkValidation($request)

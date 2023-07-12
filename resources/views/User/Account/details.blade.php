@@ -7,7 +7,7 @@
         <div class="section__content section__content--p30">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-3 offset-2">
+                    <div class="col-3 offset-3">
                         <button class="btn bg-warning text-white my-3" onclick=history.back()>
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
