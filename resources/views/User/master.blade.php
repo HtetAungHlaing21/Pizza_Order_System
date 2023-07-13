@@ -76,9 +76,11 @@
                                 <i class="fa-solid fa-user me-2"></i> {{ Auth::user()->name }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li class="px-3 py-2"><a class="dropdown-item" href="{{ route('useraccount#details') }}"> <i
+                                <li class="px-3 py-2"><a class="dropdown-item"
+                                        href="{{ route('useraccount#details') }}"> <i
                                             class="fa-regular fa-lightbulb me-2"></i> Account</a></li>
-                                <li class="px-3 py-2"><a class="dropdown-item" href="{{route('useraccount#changePasswordPage')}}"><i
+                                <li class="px-3 py-2"><a class="dropdown-item"
+                                        href="{{ route('useraccount#changePasswordPage') }}"><i
                                             class="fa-solid fa-key me-2"></i> Change Password</a></li>
                                 <li class="px-3 py-2">
                                     <form action="{{ route('logout') }}" method="post">
@@ -178,7 +180,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="img/payments.png" alt="">
+                <img class="img-fluid" src="{{ asset('User/img/payments.png') }}" alt="">
             </div>
         </div>
     </div>
@@ -196,8 +198,8 @@
     <script src="{{ asset('User/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <!-- Contact Javascript File -->
-    <script src="{{ asset('User/mail/jqBootstrapValidation.min.js') }}"></script>
-    <script src="{{ asset('User/mail/contact.js') }}"></script>
+    {{-- <script src="{{ asset('User/mail/jqBootstrapValidation.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('User/mail/contact.js') }}"></script> --}}
 
     <!-- Template Javascript -->
     <script src="{{ asset('User/js/main.js') }}"></script>
@@ -205,7 +207,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
-    
+
+
 
 </body>
 @yield('ajaxScript')

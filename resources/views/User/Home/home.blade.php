@@ -45,6 +45,10 @@
                             <div>
                                 <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                                 <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                                <a href="{{route('cart#summary')}}">
+                                    <button class="btn btn-sm btn-light position-relative"><i class="fa-solid fa-cart-shopping"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning"> {{count($carts)}} </span></button>
+                                </a>
                             </div>
                             <div class="ml-2">
                                 <div class="btn-group">
@@ -76,8 +80,6 @@
                                                 src="{{ asset('Storage/' . $product->image) }}" alt=""
                                                 style="height:300px;">
                                             <div class="product-action">
-                                                <a class="btn btn-outline-dark btn-square" href=""><i
-                                                        class="fa fa-shopping-cart"></i></a>
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
                                                 <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
@@ -140,11 +142,11 @@
                                                 style="height:300px;">
                                             <div class="product-action">
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
-                                                        class="fa fa-shopping-cart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                @if (isset($product))
+                                                    <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id )}}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="text-center py-4">
@@ -186,11 +188,11 @@
                                                 style="height:300px;">
                                             <div class="product-action">
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
-                                                        class="fa fa-shopping-cart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                @if (isset($product))
+                                                    <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="text-center py-4">

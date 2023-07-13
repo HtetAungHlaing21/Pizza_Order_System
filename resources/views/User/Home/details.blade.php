@@ -13,6 +13,8 @@
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
                     <h3> {{ $pizza->name }} </h3>
+                    <input type="hidden" id="userID" value="{{Auth::user()->id}}">
+                    <input type="hidden" id="pizzaID" value="{{ $pizza->id }}">
                     <div class="d-flex mb-3">
                         <div class="text-warning mr-2">
                             <small class="fas fa-star"></small>
@@ -32,7 +34,7 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control bg-warning-subtle border-0 text-center"
+                            <input type="text" class="form-control bg-warning-subtle border-0 text-center" id = "qty"
                                 value="1">
                             <div class="input-group-btn">
                                 <button class="btn btn-warning btn-plus">
@@ -40,7 +42,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-warning px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        <button class="btn btn-warning px-3" id="addBtn"><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
                     </div>
                     <div class="d-flex pt-2">
@@ -142,11 +144,9 @@
                     @foreach ($pizzas as $pizza)
                         <div class="product-item bg-light">
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="{{ asset('Storage/' . $pizza->image) }}"
+                                <img class="img-fluid w-100 img-thumbnail" src="{{ asset('Storage/' . $pizza->image) }}"
                                     style="height:300px" alt="Pizza Image">
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i
-                                            class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i
                                             class="far fa-heart"></i></a>
                                     <a class="btn btn-outline-dark btn-square"
@@ -176,4 +176,32 @@
         </div>
     </div>
     <!-- Products End -->
+@endsection
+
+@section('ajaxScript')
+    <script>
+        $(document).ready(function(){
+            $("#addBtn").click(function(){
+                $userID = $("#userID").val();
+                $productID = $("#pizzaID").val();
+                $quantity = $("#qty").val();
+                $data = {
+                    'userID' : $userID,
+                    'productID' : $productID,
+                    'quantity' : $quantity
+                    };
+                $.ajax({
+                    type : 'get',
+                    url : 'http://127.0.0.1:8000/cart/details',
+                    data : $data,
+                    dataType : 'json',
+                    success : function(response){
+                        if (response.status == 'success'){
+                            window.location.href = 'http://127.0.0.1:8000/user/home';
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
@@ -61,6 +62,7 @@ Route::middleware(['auth' ])->group(function () {
         Route::get('user/home', [UserController::class, 'home'])->name('user#home');
         Route::get('user/home/filter/{id}', [UserController::class, 'filter'])->name('user#filter');
         Route::get('user/home/sort', [AjaxController::class, 'sorting'])->name('user#sort');
+        Route::get('pizza/details/{id}', [UserController::class, 'pizzaDetails'])->name('pizza#details');
 
         Route::group(['prefix'=>'account'], function(){
             Route::get('details', [UserController::class, 'details'])->name('useraccount#details');
@@ -70,6 +72,10 @@ Route::middleware(['auth' ])->group(function () {
             Route::post('password/change', [UserController::class, 'changePassword'])->name('useraccount#changePassword');
         });
 
-        Route::get('pizza/details/{id}', [UserController::class, 'pizzaDetails'])->name('pizza#details');
+        Route::group(['prefix'=>'cart'], function(){
+            Route::get('details', [CartController::class, 'details'])->name('cart#details');
+            Route::get('summary', [CartController::class, 'summary'])->name('cart#summary');
+        });
+
     });
 });

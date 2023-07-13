@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Storage;
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
@@ -19,7 +20,8 @@ class UserController extends Controller
     {
         $categories = Category::get();
         $products = Product::orderBy('created_at', 'desc')->get();
-        return view('User.Home.home', compact('categories', 'products'));
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        return view('User.Home.home', compact('categories', 'products', 'carts'));
     }
 
     //Home page-category filter
