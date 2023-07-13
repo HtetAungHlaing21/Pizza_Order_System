@@ -48,13 +48,11 @@
                             </div>
                             <div class="ml-2">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                        data-toggle="dropdown">Sorting</button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Latest</a>
-                                        <a class="dropdown-item" href="#">Popularity</a>
-                                        <a class="dropdown-item" href="#">Best Rating</a>
-                                    </div>
+                                    <select name="sort" id="sorting" class="form-control">
+                                        <option value="" selected>Sorting</option>
+                                        <option value="desc">Latest to Oldest</option>
+                                        <option value="asc">Oldest to Latest</option>
+                                    </select>
                                 </div>
                                 <div class="btn-group ml-2">
                                     <button type="button" class="btn btn-sm btn-light dropdown-toggle"
@@ -69,7 +67,7 @@
                         </div>
                     </div>
                     @if (count($products) != 0)
-                        <div class="row">
+                        <div class="row" id="pizzaList">
                             @foreach ($products as $product)
                                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
@@ -117,4 +115,106 @@
         </div>
     </div>
     <!-- Shop End -->
+@endsection
+
+@section('ajaxScript')
+    <script>
+        $(document).ready(function(){
+            $("#sorting").change(function(){
+                $eventOption = $('#sorting').val();
+                if ($eventOption == 'asc'){
+                    $.ajax({
+                        type : 'get',
+                        url : 'http://127.0.0.1:8000/user/home/sort',
+                        data : {'sort' : 'asc'},
+                        dataType : 'json',
+                        success : function(response){
+                            $list = '';
+                            for($i = 0; $i<response.length; $i++){
+                                $list += `
+                                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                                    <div class="product-item bg-light mb-4">
+                                        <div class="product-img position-relative overflow-hidden">
+                                            <img class="img-fluid w-100 img-thumbnail shadow-sm"
+                                                src="{{ asset('Storage/${response[$i].image}') }}" alt=""
+                                                style="height:300px;">
+                                            <div class="product-action">
+                                                <a class="btn btn-outline-dark btn-square" href=""><i
+                                                        class="fa fa-shopping-cart"></i></a>
+                                                <a class="btn btn-outline-dark btn-square" href=""><i
+                                                        class="far fa-heart"></i></a>
+                                                <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                        class="fa-solid fa-circle-info"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="text-center py-4">
+                                            <a class="h6 text-decoration-none text-truncate" href="">
+                                                ${response[$i].name} </a>
+                                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                                <h5> ${response[$i].price} Ks</h5>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            $('#pizzaList').html($list);
+                        }
+                    })
+                }
+                else if ($eventOption == 'desc'){
+                    $.ajax({
+                        type : 'get',
+                        url : 'http://127.0.0.1:8000/user/home/sort',
+                        data : {'sort' : 'desc'},
+                        dataType : 'json',
+                        success : function(response){
+                            $list = '';
+                            for($i = 0; $i<response.length; $i++){
+                                $list += `
+                                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                                    <div class="product-item bg-light mb-4">
+                                        <div class="product-img position-relative overflow-hidden">
+                                            <img class="img-fluid w-100 img-thumbnail shadow-sm"
+                                                src="{{ asset('Storage/${response[$i].image}') }}" alt=""
+                                                style="height:300px;">
+                                            <div class="product-action">
+                                                <a class="btn btn-outline-dark btn-square" href=""><i
+                                                        class="fa fa-shopping-cart"></i></a>
+                                                <a class="btn btn-outline-dark btn-square" href=""><i
+                                                        class="far fa-heart"></i></a>
+                                                <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                        class="fa-solid fa-circle-info"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="text-center py-4">
+                                            <a class="h6 text-decoration-none text-truncate" href="">
+                                                ${response[$i].name} </a>
+                                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                                <h5> ${response[$i].price} Ks</h5>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                                <small class="fa fa-star text-warning mr-1"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            $('#pizzaList').html($list);
+                        }
+                    })
+                }
+            })
+        })
+    </script>
 @endsection

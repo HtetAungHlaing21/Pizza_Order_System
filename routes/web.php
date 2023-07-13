@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
@@ -59,6 +60,7 @@ Route::middleware(['auth' ])->group(function () {
     Route::middleware(['user_auth'])->group(function () {
         Route::get('user/home', [UserController::class, 'home'])->name('user#home');
         Route::get('user/home/filter/{id}', [UserController::class, 'filter'])->name('user#filter');
+        Route::get('user/home/sort', [AjaxController::class, 'sorting'])->name('user#sort');
 
         Route::group(['prefix'=>'account'], function(){
             Route::get('details', [UserController::class, 'details'])->name('useraccount#details');

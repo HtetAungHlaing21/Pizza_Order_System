@@ -18,7 +18,7 @@ class UserController extends Controller
     public function home()
     {
         $categories = Category::get();
-        $products = Product::orderBy('updated_at', 'desc')->get();
+        $products = Product::orderBy('created_at', 'desc')->get();
         return view('User.Home.home', compact('categories', 'products'));
     }
 
