@@ -75,6 +75,10 @@ Route::middleware(['auth' ])->group(function () {
         Route::group(['prefix'=>'cart'], function(){
             Route::get('details', [CartController::class, 'details'])->name('cart#details');
             Route::get('summary', [CartController::class, 'summary'])->name('cart#summary');
+            Route::get('update', [CartController::class, 'update'])->name('cart#update');
+            Route::get('delete', [CartController::class, 'delete'])->name('cart#delete');
+            Route::get('delete/all', [CartController::class, 'deleteAll'])->name('cart#deleteAll');
+            Route::get('add/{id}', [CartController::class, 'add'])->name("cart#add");
         });
 
     });

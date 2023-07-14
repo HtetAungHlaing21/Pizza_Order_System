@@ -45,9 +45,12 @@
                             <div>
                                 <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                                 <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                                <a href="{{route('cart#summary')}}">
-                                    <button class="btn btn-sm btn-light position-relative"><i class="fa-solid fa-cart-shopping"></i>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning"> {{count($carts)}} </span></button>
+                                <a href="{{ route('cart#summary') }}">
+                                    <button class="btn btn-sm btn-light position-relative"><i
+                                            class="fa-solid fa-cart-shopping"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                                            {{ count($carts) }} </span></button>
                                 </a>
                             </div>
                             <div class="ml-2">
@@ -70,6 +73,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-6 offset-3 text-center">
+                        @if (session('createSuccess'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('createSuccess') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                    </div>
                     @if (count($products) != 0)
                         <div class="row" id="pizzaList">
                             @foreach ($products as $product)
@@ -80,9 +92,12 @@
                                                 src="{{ asset('Storage/' . $product->image) }}" alt=""
                                                 style="height:300px;">
                                             <div class="product-action">
+                                                <a class="btn btn-outline-dark btn-square" href="{{route("cart#add", $product->id)}}"><i
+                                                        class="fa-solid fa-cart-shopping"></i></a>
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                <a class="btn btn-outline-dark btn-square"
+                                                    href="{{ route('pizza#details', $product->id) }}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
                                             </div>
                                         </div>
@@ -121,18 +136,20 @@
 
 @section('ajaxScript')
     <script>
-        $(document).ready(function(){
-            $("#sorting").change(function(){
+        $(document).ready(function() {
+            $("#sorting").change(function() {
                 $eventOption = $('#sorting').val();
-                if ($eventOption == 'asc'){
+                if ($eventOption == 'asc') {
                     $.ajax({
-                        type : 'get',
-                        url : 'http://127.0.0.1:8000/user/home/sort',
-                        data : {'sort' : 'asc'},
-                        dataType : 'json',
-                        success : function(response){
+                        type: 'get',
+                        url: 'http://127.0.0.1:8000/user/home/sort',
+                        data: {
+                            'sort': 'asc'
+                        },
+                        dataType: 'json',
+                        success: function(response) {
                             $list = '';
-                            for($i = 0; $i<response.length; $i++){
+                            for ($i = 0; $i < response.length; $i++) {
                                 $list += `
                                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
@@ -144,7 +161,7 @@
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
                                                 @if (isset($product))
-                                                    <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id )}}"><i
+                                                    <a class="btn btn-outline-dark btn-square" href="{{ route('pizza#details', $product->id) }}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
                                                 @endif
                                             </div>
@@ -169,16 +186,17 @@
                             $('#pizzaList').html($list);
                         }
                     })
-                }
-                else if ($eventOption == 'desc'){
+                } else if ($eventOption == 'desc') {
                     $.ajax({
-                        type : 'get',
-                        url : 'http://127.0.0.1:8000/user/home/sort',
-                        data : {'sort' : 'desc'},
-                        dataType : 'json',
-                        success : function(response){
+                        type: 'get',
+                        url: 'http://127.0.0.1:8000/user/home/sort',
+                        data: {
+                            'sort': 'desc'
+                        },
+                        dataType: 'json',
+                        success: function(response) {
                             $list = '';
-                            for($i = 0; $i<response.length; $i++){
+                            for ($i = 0; $i < response.length; $i++) {
                                 $list += `
                                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
@@ -190,7 +208,7 @@
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
                                                 @if (isset($product))
-                                                    <a class="btn btn-outline-dark btn-square" href="{{route('pizza#details', $product->id)}}"><i
+                                                    <a class="btn btn-outline-dark btn-square" href="{{ route('pizza#details', $product->id) }}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
                                                 @endif
                                             </div>

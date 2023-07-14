@@ -32,6 +32,36 @@ class CartController extends Controller
         return view ('User.Order.cart', compact('carts', 'total'));
     }
 
+    //Cart Update
+    public function update(Request $request){
+        if ($request->quantity == 0){
+            Cart::where('id', $request->cartID)->delete();
+        }
+        Cart::where('id', $request->cartID)->update([
+            "quantity" => $request->quantity
+        ]);
+    }
+
+    //Cart delete
+    public function delete(Request $request){
+        Cart::where('id', $request->cartID)->delete();
+    }
+
+    //To delete everything in a cart
+    public function deleteAll(){
+        Cart::where('user_id', Auth::user()->id)->delete();
+    }
+
+    //Cart Add (From Icon)
+    public function add($id){
+        Cart::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $id,
+            'quantity' => 1
+        ]);
+        return redirect()->route('user#home')->with(['createSuccess' => 'Successfully Added to Cart!']);
+    }
+
     //Get Data Function
     private function getData($request){
         return [
