@@ -25,6 +25,8 @@
                                         src="{{ asset('Storage/' . $cart->product_image) }}" alt="Pizza Image"
                                         style="width: 50px;"></td>
                                 <input type="hidden" name="" id="cartID" value=" {{ $cart->id }} ">
+                                <input type="hidden" id="userID" value="{{ Auth::user()->id }}">
+                                <input type="hidden" id="pizzaID" value="{{ $cart->product_id }}">
                                 <td class="align-middle col-3"> {{ $cart->product_name }} </td>
                                 <td class="align-middle" id="price"> {{ $cart->product_price }} Ks </td>
                                 <td class="align-middle">
@@ -44,9 +46,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="align-middle total col-2" id="total">
-                                    {{ $cart->product_price * $cart->quantity }}
-                                    Ks</td>
+                                <td class="align-middle total col-2" id="total">{{ $cart->product_price * $cart->quantity }}Ks</td>
                                 <td class="align-middle"><button class="btn btn-sm btn-danger btn-cross"><i
                                             class="fa fa-times"></i></button></td>
                             </tr>
@@ -73,7 +73,8 @@
                             <h5>Total</h5>
                             <h5 id="finalTotal"> {{ $total + 3000 }} Ks </h5>
                         </div>
-                        <button class="btn btn-block btn-warning font-weight-bold my-2 py-3">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-warning font-weight-bold my-2 py-3" id="order">Proceed To
+                            Checkout</button>
                         <button class="btn btn-block btn-danger font-weight-bold my-2 py-3" id="deleteCart">Delete
                             Cart</button>
                     </div>
@@ -167,11 +168,42 @@
 
             $("#deleteCart").click(function() {
                 $("#cartTable").remove();
+                $("#alltotal").html(0 + "Ks");
+                $("#finalTotal").html(0 + "Ks");
                 $.ajax({
                     type: 'get',
                     url: 'http://127.0.0.1:8000/cart/delete/all',
                     success: function(response) {
-                       window.location.href = 'http://127.0.0.1:8000/user/home';
+                        window.location.href = 'http://127.0.0.1:8000/user/home';
+                    }
+                })
+            })
+
+            $("#order").click(function() {
+                $data = [];
+                $order_code = "TPC" + Math.floor(Math.random() * 1000000000)
+                $('#cartTable tr').each(function(index, row) {
+                    $productID = $(row).find("#pizzaID").val();
+                    $qty = $(row).find('#qty').val();
+                    $total =  Number($(row).find("#total").html().replace('Ks', ''));
+                    $cartData = {
+                        'userID': $("#userID").val(),
+                        'productID': $productID,
+                        'quantity': $qty,
+                        'total': $total,
+                        'order_code': $order_code
+                    }
+                    $data.push($cartData);
+                })
+                $objectData = Object.assign({}, $data);
+                $.ajax({
+                    type: 'get',
+                    url: 'http://127.0.0.1:8000/order/add',
+                    data: $objectData,
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.status == 'success'){
+                        window.location.href = 'http://127.0.0.1:8000/user/home';}
                     }
                 })
             })

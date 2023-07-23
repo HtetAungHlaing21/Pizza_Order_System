@@ -128,14 +128,14 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="{{ route('account#details') }}"
+                                                    <a href="{{route('account#details')}}"
                                                         class="text-center btn-outline-primary">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="{{ route('account#changePasswordPage') }}"
+                                                    <a href="{{route('account#changePasswordPage')}}"
                                                         class="text-center btn-outline-primary">
                                                         <i class="fa-solid fa-key"></i></i>Change Password</a>
                                                 </div>

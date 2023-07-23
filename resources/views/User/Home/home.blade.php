@@ -45,12 +45,17 @@
                             <div>
                                 <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                                 <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                                <a href="{{ route('cart#summary') }}">
-                                    <button class="btn btn-sm btn-light position-relative"><i
-                                            class="fa-solid fa-cart-shopping"></i>
+                                <a href="{{ route('cart#summary') }}" class="text-decoration-none">
+                                    <button class="btn btn-sm btn-light position-relative">
+                                        <i class="fa-solid fa-cart-shopping"></i>
                                         <span
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                                            {{ count($carts) }} </span></button>
+                                            {{ count($carts) }}
+                                        </span>
+                                    </button>
+                                </a>
+                                <a href="{{route('order#history')}}">
+                                    <i class="fa-solid fa-clock-rotate-left btn btn-sm btn-light"></i>
                                 </a>
                             </div>
                             <div class="ml-2">
@@ -158,6 +163,8 @@
                                                 src="{{ asset('Storage/${response[$i].image}') }}" alt=""
                                                 style="height:300px;">
                                             <div class="product-action">
+                                                <a class="btn btn-outline-dark btn-square" href="{{route("cart#add", $product->id)}}"><i
+                                                        class="fa-solid fa-cart-shopping"></i></a>
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
                                                 @if (isset($product))
@@ -205,6 +212,8 @@
                                                 src="{{ asset('Storage/${response[$i].image}') }}" alt=""
                                                 style="height:300px;">
                                             <div class="product-action">
+                                                <a class="btn btn-outline-dark btn-square" href="{{route("cart#add", $product->id)}}"><i
+                                                        class="fa-solid fa-cart-shopping"></i></a>
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="far fa-heart"></i></a>
                                                 @if (isset($product))

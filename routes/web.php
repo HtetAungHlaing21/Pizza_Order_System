@@ -5,6 +5,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -64,7 +65,7 @@ Route::middleware(['auth' ])->group(function () {
         Route::get('user/home/sort', [AjaxController::class, 'sorting'])->name('user#sort');
         Route::get('pizza/details/{id}', [UserController::class, 'pizzaDetails'])->name('pizza#details');
 
-        Route::group(['prefix'=>'account'], function(){
+        Route::group(['prefix'=>'user/account'], function(){
             Route::get('details', [UserController::class, 'details'])->name('useraccount#details');
             Route::get('updatePage', [UserController::class, 'updatePage'])->name('useraccount#updatePage');
             Route::post('update/{id}', [UserController::class, 'update'])->name('useraccount#update');
@@ -79,6 +80,11 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('delete', [CartController::class, 'delete'])->name('cart#delete');
             Route::get('delete/all', [CartController::class, 'deleteAll'])->name('cart#deleteAll');
             Route::get('add/{id}', [CartController::class, 'add'])->name("cart#add");
+        });
+
+        Route::group(['prefix' => 'order'], function(){
+            Route::get('add', [OrderController::class, 'addOrder'])->name('order#addOrder');
+            Route::get('history', [OrderController::class, 'history'])->name('order#history');
         });
 
     });
