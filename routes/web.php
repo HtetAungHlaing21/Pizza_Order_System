@@ -55,6 +55,13 @@ Route::middleware(['auth' ])->group(function () {
             Route::post('update', [ProductController::class, 'update'])->name('product#update');
         });
 
+        Route::group(['prefix'=>'orders'], function(){
+            Route::get('list', [OrderController::class, 'list'])->name('orders#list');
+            Route::get('details/{code}', [OrderController::class, 'details'])->name('orders#details');
+            Route::get('change/status/{code}/{status}', [OrderController::class, 'changeStatus'])->name('orders#changeStatus');
+            Route::get('filter', [OrderController::class, 'filter'])->name('orders#filter');
+        });
+
     });
 
 
@@ -85,6 +92,7 @@ Route::middleware(['auth' ])->group(function () {
         Route::group(['prefix' => 'order'], function(){
             Route::get('add', [OrderController::class, 'addOrder'])->name('order#addOrder');
             Route::get('history', [OrderController::class, 'history'])->name('order#history');
+            Route::get('details/{code}', [OrderController::class, 'showDetails'])->name('order#details');
         });
 
     });

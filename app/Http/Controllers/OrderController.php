@@ -33,8 +33,65 @@ class OrderController extends Controller
 
     //Show History
     public function history(){
-        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $orders = Order::when(request('key'), function($query){
+                $searchKey = request('key');
+                $query->where('order_code', 'like', '%'.$searchKey.'%');
+        })
+                ->where('user_id', Auth::user()->id)
+                ->orderBy('id', 'desc')
+                ->paginate(7);
         return view("User.Order.history", compact('orders'));
+    }
+
+    //Show order list in admin panel
+    public function list(){
+        $orders = Order::when(request('key'), function($query){
+            $searchKey = request('key');
+            $query->where('order_code', 'like', '%'.$searchKey.'%');
+        })
+                ->select('orders.*', 'users.name as user_name')
+                ->leftJoin('users', 'orders.user_id', 'users.id')
+                ->orderBy('id', 'desc')
+                ->paginate(7);
+        return view('Admin.Order.list', compact('orders'));
+    }
+
+    //Show order details in admin panal
+    public function details($code){
+        $items = OrderList::select('order_lists.*', 'orders.total as total_amount', 'orders.status', 'users.name as user_name', 'users.phone_number as user_phone', 'users.email as user_email', 'products.image as product_image', 'products.name as product_name')
+                ->leftJoin('orders', 'order_lists.order_code', 'orders.order_code')
+                ->leftJoin('users', 'order_lists.user_id', 'users.id')
+                ->leftJoin('products', 'order_lists.product_id', 'products.id')
+                ->where('order_lists.order_code', $code)->paginate(5);
+        return view('Admin.Order.details', compact('items'));
+    }
+
+    //Show order details in user panal
+    public function showDetails($code){
+        $items = OrderList::select('order_lists.*', 'orders.total as total_amount', 'orders.status', 'users.name as user_name', 'users.phone_number as user_phone', 'users.email as user_email', 'products.image as product_image', 'products.name as product_name')
+            ->leftJoin('orders', 'order_lists.order_code', 'orders.order_code')
+            ->leftJoin('users', 'order_lists.user_id', 'users.id')
+            ->leftJoin('products', 'order_lists.product_id', 'products.id')
+            ->where('order_lists.order_code', $code)->paginate(5);
+        return view('User.Order.details', compact('items'));
+    }
+
+    //change order status
+    public function changeStatus($orderCode, $status){
+        Order::where('order_code', $orderCode)->update(['status'=>$status]);
+        return back()->with(['updateSuccess' => 'Order Status Updated']);
+    }
+
+    //Filter Order By status
+    public function filter(){
+        $orders = Order::when(request('orderStatus'),function($query){
+            $status = request('orderStatus');
+            $query->where('status', $status);
+        })
+                ->select('orders.*', 'users.name as user_name')
+                ->leftJoin('users', 'orders.user_id', 'users.id')
+                ->paginate(7);
+        return view('Admin.Order.list', compact('orders'));
     }
 
     //Change array format

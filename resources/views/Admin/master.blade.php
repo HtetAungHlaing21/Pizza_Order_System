@@ -69,6 +69,10 @@
                             <a href="{{ route('product#list') }}">
                                <i class="fa-solid fa-pizza-slice"></i>Pizza</a>
                         </li>
+                        <li>
+                            <a href="{{ route('orders#list') }}">
+                               <i class="fa-solid fa-file-invoice"></i>Orders</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -168,7 +172,6 @@
 
     </div>
 
-
     <!-- Jquery JS-->
     <script src="{{ asset('Admin/vendor/jquery-3.2.1.min.js') }}"></script>
     <!-- Bootstrap JS-->
@@ -194,6 +197,8 @@
     <script src="{{ asset('Admin/js/main.js') }}"></script>
 
 </body>
+
+@yield('ajaxScript')
 
 </html>
 <!-- end document-->

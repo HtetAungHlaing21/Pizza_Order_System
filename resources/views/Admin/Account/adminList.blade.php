@@ -10,7 +10,7 @@
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
                         <div class="overview-wrap">
-                            <h2 class="title-1">Category List</h2>
+                            <h2 class="title-1">Admin List</h2>
 
                         </div>
                     </div>
