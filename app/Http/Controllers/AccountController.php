@@ -84,27 +84,64 @@ class AccountController extends Controller
     }
 
     //Admin Delete
-    public function delete($id){
+    public function delete($id)
+    {
         $admin = User::where('id', $id)->first();
         $adminImage = $admin->image;
-        if($adminImage != null){
-            Storage::delete('public/'.$adminImage);
+        if ($adminImage != null) {
+            Storage::delete('public/' . $adminImage);
         }
         User::where('id', $id)->delete();
-        return back()->with(['deleteSuccess'=>'Successfully Deleted!']);
+        return back()->with(['deleteSuccess' => 'Successfully Deleted!']);
     }
 
     //Change role page
-    public function changeRole($id){
+    public function changeRole($id)
+    {
         $admin = User::where('id', $id)->first();
         return view('Admin.Account.changeRole', compact('admin'));
     }
 
     //Change the role
-    public function roleChange($id, Request $request){
+    public function roleChange($id, Request $request)
+    {
         $data = ['role' => $request->role];
         User::where('id', $id)->update($data);
-        return redirect()->route('account#adminList')->with(['updateSuccess'=>'Role Successfully Updated!']);
+        return redirect()->route('account#adminList')->with(['updateSuccess' => 'Role Successfully Updated!']);
+    }
+
+    //list customers
+    public function userList()
+    {
+        //Show only users in data searching
+        $users = User::when(request('key'), function ($query, $keyword) {
+            return $query->where(function ($query) use ($keyword) {
+                $query->orwhere('name', 'like', '%' . request('key') . '%')
+                    ->orWhere('phone_number', 'like', '%' . request('key') . '%')
+                    ->orWhere('email', 'like', '%' . request('key') . '%');
+            })
+                ->where('role', 'user');
+        }, function ($query) {
+            return $query->where('role', 'user');
+        })->paginate(2);
+        return view('Admin.Account.customerList', compact('users'));
+    }
+
+    //delete customers
+    public function userDelete($id){
+        $customer = User::where('id', $id)->first();
+        $customerImage = $customer->image;
+        if($customerImage != null){
+            Storage::delete('public/'. $customerImage);
+        }
+        User::where('id', $id)->delete();
+        return back()->with(['deleteSuccess'=>'Successfully Deleted!']);
+    }
+
+    //Upgrade to admin
+    public function upgrade($id){
+        User::where('id', $id)->update(['role'=>'admin']);
+        return redirect()->route('account#userList')->with(['updateSuccess'=>'Successfully upgraded to Admin Role!']);
     }
 
     //check validation

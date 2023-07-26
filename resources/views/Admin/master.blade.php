@@ -59,7 +59,11 @@
                     <ul class="list-unstyled navbar__list">
                         <li>
                             <a href="{{ route('account#adminList') }}">
-                                <i class="fa-solid fa-users"></i>Admins</a>
+                                <i class="fa-solid fa-users-gear"></i>Admins</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('account#userList') }}">
+                                <i class="fa-solid fa-users"></i>Customers</a>
                         </li>
                         <li>
                             <a href="{{ route('category#list') }}">
