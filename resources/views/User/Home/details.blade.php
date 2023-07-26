@@ -23,7 +23,7 @@
                             <small class="fas fa-star-half-alt"></small>
                             <small class="far fa-star"></small>
                         </div>
-                        <small class="pt-1 ms-3"> <i class="fa-solid fa-eye"></i> {{ $pizza->view_count }} </small>
+                        <small class="pt-1 ms-3"> <i class="fa-solid fa-eye"></i> {{ $pizza->view_count + 1 }} </small>
                     </div>
                     <h3 class="font-weight-semi-bold mb-4"> {{ $pizza->price }} Ks</h3>
                     <p class="mb-4"> {{ $pizza->description }} </p>
@@ -185,6 +185,13 @@
 @section('ajaxScript')
     <script>
         $(document).ready(function() {
+            $.ajax({
+                type : "get",
+                url : "/pizza/view",
+                data : { 'productID':  $("#pizzaID").val() },
+                dataType : 'json'
+            })
+
             $("#addBtn").click(function() {
                 $userID = $("#userID").val();
                 $productID = $("#pizzaID").val();
@@ -196,12 +203,12 @@
                 };
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/cart/details',
+                    url: '/cart/details',
                     data: $data,
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == 'success') {
-                            window.location.href = 'http://127.0.0.1:8000/user/home';
+                            window.location.href = '/user/home';
                         }
                     }
                 })

@@ -43,9 +43,7 @@
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div>
-                                <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                                <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                                <a href="{{ route('cart#summary') }}" class="text-decoration-none">
+                                <a href="{{ route('cart#summary') }}" class="text-decoration-none me-2">
                                     <button class="btn btn-sm btn-light position-relative">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                         <span
@@ -54,8 +52,11 @@
                                         </span>
                                     </button>
                                 </a>
-                                <a href="{{route('order#history')}}">
+                                <a href="{{route('order#history')}}" class="text-decoration-none me-2">
                                     <i class="fa-solid fa-clock-rotate-left btn btn-sm btn-light"></i>
+                                </a>
+                                <a href="{{route('contact#message')}}" class="text-decoration-none me-2">
+                                    <i class="fa-solid fa-message btn btn-sm btn-light"></i>
                                 </a>
                             </div>
                             <div class="ml-2">
@@ -147,7 +148,7 @@
                 if ($eventOption == 'asc') {
                     $.ajax({
                         type: 'get',
-                        url: 'http://127.0.0.1:8000/user/home/sort',
+                        url: '/user/home/sort',
                         data: {
                             'sort': 'asc'
                         },
@@ -196,7 +197,7 @@
                 } else if ($eventOption == 'desc') {
                     $.ajax({
                         type: 'get',
-                        url: 'http://127.0.0.1:8000/user/home/sort',
+                        url: '/user/home/sort',
                         data: {
                             'sort': 'desc'
                         },

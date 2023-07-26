@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 
@@ -41,8 +42,7 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('adminList', [AccountController::class, 'adminList'])->name('account#adminList');
             Route::get('userList', [AccountController::class, 'userList'])->name('account#userList');
             Route::get('admin/delete/{id}', [AccountController::class, 'delete'])->name('account#adminDelete');
-            Route::get('changeRole/{id}', [AccountController::class, 'changeRole'])->name('account#changerole');
-            Route::post('role/change/{id}', [AccountController::class, 'roleChange'])->name('account#rolechange');
+            Route::get('role/change/{id}', [AccountController::class, 'roleChange'])->name('account#rolechange');
             Route::get('user/delete/{id}', [AccountController::class, 'userDelete'])->name('account#userDelete');
             Route::get('upgrade/admin/{id}', [AccountController::class, 'upgrade'])->name('account#upgrade');
         });
@@ -63,6 +63,11 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('details/{code}', [OrderController::class, 'details'])->name('orders#details');
             Route::get('change/status/{code}/{status}', [OrderController::class, 'changeStatus'])->name('orders#changeStatus');
             Route::get('filter', [OrderController::class, 'filter'])->name('orders#filter');
+            Route::get('customer/list/{id}', [OrderController::class, 'customerList'])->name('orders#customerList');
+        });
+
+        Route::group(['prefix'=>'contact'], function(){
+            Route::get('list', [ContactController::class, 'list'])->name('contact#list');
         });
 
     });
@@ -74,6 +79,7 @@ Route::middleware(['auth' ])->group(function () {
         Route::get('user/home/filter/{id}', [UserController::class, 'filter'])->name('user#filter');
         Route::get('user/home/sort', [AjaxController::class, 'sorting'])->name('user#sort');
         Route::get('pizza/details/{id}', [UserController::class, 'pizzaDetails'])->name('pizza#details');
+        Route::get('pizza/view', [AjaxController::class, 'increaseView'])->name('pizza#viewCount');
 
         Route::group(['prefix'=>'user/account'], function(){
             Route::get('details', [UserController::class, 'details'])->name('useraccount#details');
@@ -96,6 +102,12 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('add', [OrderController::class, 'addOrder'])->name('order#addOrder');
             Route::get('history', [OrderController::class, 'history'])->name('order#history');
             Route::get('details/{code}', [OrderController::class, 'showDetails'])->name('order#details');
+        });
+
+        Route::group(['prefix'=>'contact'], function(){
+           Route::get('message', [ContactController::class, 'message'])->name('contact#message');
+           Route::post('send/message', [ContactController::class, 'sendMessage'])->name('contact#sendMessage');
+           Route::get('history/{id}', [ContactController::class, 'history'])->name('contact#history');
         });
 
     });

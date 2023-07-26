@@ -106,7 +106,7 @@
                 calculateTotal();
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/cart/update',
+                    url: '/cart/update',
                     data: {
                         'quantity': $quantity,
                         'cartID': $cartId
@@ -124,7 +124,7 @@
                 calculateTotal();
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/cart/update',
+                    url: '/cart/update',
                     data: {
                         'quantity': $quantity,
                         'cartID': $cartId
@@ -138,7 +138,7 @@
                 calculateTotal();
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/cart/delete',
+                    url: '/cart/delete',
                     data: {
                         'cartID': $cartId
                     },
@@ -157,7 +157,7 @@
                 calculateTotal();
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/cart/update',
+                    url: '/cart/update',
                     data: {
                         'quantity': $quantity,
                         'cartID': $cartId
@@ -174,7 +174,7 @@
                     type: 'get',
                     url: 'http://127.0.0.1:8000/cart/delete/all',
                     success: function(response) {
-                        window.location.href = 'http://127.0.0.1:8000/user/home';
+                        window.location.href = '/user/home';
                     }
                 })
             })
@@ -198,12 +198,12 @@
                 $objectData = Object.assign({}, $data);
                 $.ajax({
                     type: 'get',
-                    url: 'http://127.0.0.1:8000/order/add',
+                    url: '/order/add',
                     data: $objectData,
                     dataType: 'json',
                     success: function(response){
                         if (response.status == 'success'){
-                        window.location.href = 'http://127.0.0.1:8000/user/home';}
+                        window.location.href = '/user/home';}
                     }
                 })
             })

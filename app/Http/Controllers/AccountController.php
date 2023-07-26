@@ -95,19 +95,12 @@ class AccountController extends Controller
         return back()->with(['deleteSuccess' => 'Successfully Deleted!']);
     }
 
-    //Change role page
-    public function changeRole($id)
+    //Remove Admin Role
+    public function roleChange($id)
     {
-        $admin = User::where('id', $id)->first();
-        return view('Admin.Account.changeRole', compact('admin'));
-    }
-
-    //Change the role
-    public function roleChange($id, Request $request)
-    {
-        $data = ['role' => $request->role];
+        $data = ['role' => 'user'];
         User::where('id', $id)->update($data);
-        return redirect()->route('account#adminList')->with(['updateSuccess' => 'Role Successfully Updated!']);
+        return redirect()->route('account#adminList')->with(['updateSuccess' => 'Successfully Removed From Admin Role!']);
     }
 
     //list customers

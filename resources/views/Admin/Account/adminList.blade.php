@@ -84,10 +84,10 @@
                                         <td class="col">
                                             <div class="table-data-feature">
                                                 @if ($admin->id != Auth::user()->id)
-                                                    <a href=" {{route('account#changerole', $admin->id)}} " class="me-3">
+                                                    <a href=" {{route('account#rolechange', $admin->id)}} " class="me-3">
                                                         <button class="item" data-toggle="tooltip" data-placement="top"
-                                                            title="Update Role">
-                                                            <i class="fa-solid fa-wand-sparkles"></i>
+                                                            title="Remove Admin">
+                                                            <i class="fa-solid fa-circle-xmark"></i>
                                                         </button>
                                                     </a>
                                                     <a href="{{ route('account#adminDelete', $admin->id) }}" class="me-3">

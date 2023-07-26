@@ -77,6 +77,10 @@
                             <a href="{{ route('orders#list') }}">
                                <i class="fa-solid fa-file-invoice"></i>Orders</a>
                         </li>
+                        <li>
+                            <a href="{{ route('contact#list') }}">
+                               <i class="fa-solid fa-envelope"></i>Messages</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -56,7 +56,8 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('user#home') }}" class="nav-item nav-link">Home</a>
                             <a href="{{route('cart#summary')}}" class="nav-item nav-link">My Cart</a>
-                            <a href="" class="nav-item nav-link">Contact</a>
+                            <a href="{{route('order#history')}}" class="nav-item nav-link">My Orders</a>
+                            <a href="{{route('contact#message')}}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             {{-- <a href="" class="btn px-0">

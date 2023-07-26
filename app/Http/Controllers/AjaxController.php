@@ -17,4 +17,11 @@ class AjaxController extends Controller
         }
         return $product;
     }
+
+    //Increase view count
+    public function increaseView(Request $request){
+        $pizza = Product::where('id', $request->productID)->first();
+        $updateViewCount = $pizza->view_count + 1;
+        Product::where('id', $request->productID)->update(['view_count'=> $updateViewCount]);
+    }
 }

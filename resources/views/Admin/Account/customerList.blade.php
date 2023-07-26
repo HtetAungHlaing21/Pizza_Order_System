@@ -95,6 +95,12 @@
                                                         <i class="zmdi zmdi-delete"></i>
                                                     </button>
                                                 </a>
+                                                <a href="{{ route('orders#customerList', $user->id) }}" class="me-3">
+                                                    <button class="item" data-toggle="tooltip" data-placement="top"
+                                                        title="View Orders">
+                                                        <i class="fa-solid fa-file-invoice"></i>
+                                                    </button>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
