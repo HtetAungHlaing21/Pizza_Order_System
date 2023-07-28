@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
@@ -102,6 +103,10 @@ Route::middleware(['auth' ])->group(function () {
             Route::get('add', [OrderController::class, 'addOrder'])->name('order#addOrder');
             Route::get('history', [OrderController::class, 'history'])->name('order#history');
             Route::get('details/{code}', [OrderController::class, 'showDetails'])->name('order#details');
+        });
+
+        Route::group(['prefix'=>'rating'], function(){
+            Route::post('rate', [RatingController::class, 'rate'])->name('rating#rate');
         });
 
         Route::group(['prefix'=>'contact'], function(){

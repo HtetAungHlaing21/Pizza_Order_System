@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Storage;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -36,7 +37,11 @@ class UserController extends Controller
     public function pizzaDetails($id){
         $pizzas = Product::get();
         $pizza = Product::where('id', $id)->first();
-        return view('User.Home.details', compact('pizzas', 'pizza'));
+        $reviews = Rating::select('ratings.*', 'users.image', 'users.gender', 'users.name')
+                ->leftJoin('users', 'users.id', 'ratings.user_id')
+                ->orderBy('ratings.created_at', 'desc')
+                ->where('ratings.product_id', $id)->paginate(3);
+        return view('User.Home.details', compact('pizzas', 'pizza', 'reviews'));
     }
 
     //Details Page

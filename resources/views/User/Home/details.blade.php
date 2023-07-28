@@ -5,6 +5,12 @@
 @section('content')
     <!-- Shop Detail Start -->
     <div class="container-fluid pb-5">
+        @if (session('reviewSuccess'))
+            <div class="alert alert-success alert-dismissible fade show col-4 offset-4 text-center" role="alert">
+                {{ session('reviewSuccess') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row px-xl-5">
             <div class="col-lg-5 mb-30">
                 <img class="w-100 h-100" src="{{ asset('Storage/' . $pizza->image) }}" alt="Pizza Image">
@@ -69,60 +75,102 @@
             <div class="col">
                 <div class="bg-light p-30">
                     <div class="nav nav-tabs mb-4">
-                        <a class="nav-item nav-link text-dark " data-toggle="tab" href="#tab-pane-3"><b>Reviews (0)</b></a>
+                        <a class="nav-item nav-link text-dark fs-4" data-toggle="tab" href="#tab-pane-3"><b>Reviews
+                                ({{ $reviews->total() }})</b></a>
                     </div>
+                    @php
+                        $hasRated = False;
+                    @endphp
                     <div class="tab-content">
                         <div class="tab-pane fade" id="tab-pane-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h4 class="mb-4">1 review for "Product Name"</h4>
-                                    <div class="media mb-4">
-                                        <img src="{{ asset('User/img/user.jpg') }}" alt="Image"
-                                            class="img-fluid mr-3 mt-1" style="width: 45px;">
-                                        <div class="media-body">
-                                            <h6>John Doe<small> - <i>01 Jan 2023</i></small></h6>
-                                            <div class="text-warning mb-2">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                                <i class="far fa-star"></i>
+                                    <h4 class="mb-4">{{ $reviews->total() }} reviews for {{ $pizza->name }} </h4>
+                                    @if (count($reviews) != 0)
+                                        @foreach ($reviews as $review)
+                                            <div class="media mb-4 row">
+                                                <div class="image col-2">
+                                                    @if ($review->image == null)
+                                                        @if ($review->gender == 'male')
+                                                            <img src="{{ asset('Images/male_profile.png') }}"
+                                                                class="img-thumbnail" alt="male profile">
+                                                        @else
+                                                            <img src="{{ asset('Images/female_profile.png') }}"
+                                                                class="img-thumbnail" alt="female profile">
+                                                        @endif
+                                                    @else
+                                                        <img src="{{ asset('storage/' . $review->image) }}" alt=""
+                                                            class="img-thumbnail">
+                                                    @endif
+                                                </div>
+                                                <div class="col">
+                                                    <h6 class=>{{ $review->name }}<small>-
+                                                            <i>{{ $review->created_at->format('d/m/Y') }} </i></small></h6>
+                                                    <div class="text-warning mb-2">
+                                                        @for ($i = 1; $i <= $review->rating_count; ++$i)
+                                                            <i class="fas fa-star"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <p>{{ $review->review }}</p>
+                                                </div>
                                             </div>
-                                            <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum
-                                                et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                        </div>
+                                            @php
+                                                if (Auth::user()->id == $review->user_id) {
+                                                    $hasRated = True;
+                                                }
+                                            @endphp
+                                        @endforeach
+                                    @else
+                                        <h3 class="text-secondary text-center my-5">There are no reviews yet.</h3>
+                                    @endif
+                                    <div class="my-3">
+                                        {{ $reviews->links() }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h4 class="mb-4">Leave a review</h4>
-                                    <small>Your email address will not be published. Required fields are marked *</small>
-                                    <div class="d-flex my-3">
-                                        <p class="mb-0 mr-2">Your Rating * :</p>
-                                        <div class="text-warning">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
+                                    @if ($hasRated == False)
+                                        <div>
+                                            <h4 class="mb-4">Leave a review</h4>
+                                            <form action="{{ route('rating#rate') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="userID" value="{{ Auth::user()->id }}">
+                                                <input type="hidden" name="productID" value="{{ $pizza->id }}">
+                                                <div class="form-group">
+                                                    <label for="">Your Rating</label>
+                                                    <select name="rating" id=""
+                                                        class="form-control @error('rating') is-invalid @enderror">
+                                                        <option value="">Choose your rating.</option>
+                                                        <option value="1">1 Star - Very Bad</option>
+                                                        <option value="2">2 Stars - Bad</option>
+                                                        <option value="3">3 Stars - Good</option>
+                                                        <option value="4">4 Stars - Very Good</option>
+                                                        <option value="5">5 Stars - Excellent</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        @error('rating')
+                                                            <small class="text-danger"> {{ $message }} </small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message">Your Review</label>
+                                                    <textarea id="message" cols="30" rows="5" name="review"
+                                                        class="form-control @error('review') is-invalid @enderror" placeholder="Leave your message.">{{ old('review') }}</textarea>
+                                                    <div class="invalid-feedback">
+                                                        @error('review')
+                                                            <small class="text-danger"> {{ $message }} </small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <input type="submit" value="Rate the pizza"
+                                                        class="btn btn-warning px-3">
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div>
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="message">Your Review *</label>
-                                            <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Your Name *</label>
-                                            <input type="text" class="form-control" id="name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Your Email *</label>
-                                            <input type="email" class="form-control" id="email">
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            <input type="submit" value="Leave Your Review" class="btn btn-warning px-3">
-                                        </div>
-                                    </form>
+                                    @else
+                                        <h3 class="text-secondary text-center mt-5">Thanks for your review.</h3>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -186,10 +234,12 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                type : "get",
-                url : "/pizza/view",
-                data : { 'productID':  $("#pizzaID").val() },
-                dataType : 'json'
+                type: "get",
+                url: "/pizza/view",
+                data: {
+                    'productID': $("#pizzaID").val()
+                },
+                dataType: 'json'
             })
 
             $("#addBtn").click(function() {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Storage;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -54,7 +55,12 @@ class ProductController extends Controller
         $pizza = Product::select('products.*', 'categories.name as category_name')
                 ->leftJoin('categories', 'products.category_id', 'categories.id')
                 ->where('products.id', $id)->first();
-        return view('Admin.Product.details', compact('pizza'));
+        $reviews = Rating::select('ratings.*', 'users.name', 'users.gender')
+                ->leftJoin('users', 'users.id', 'ratings.user_id')
+                ->where('ratings.product_id', $id)
+                ->orderBy('ratings.created_at', 'desc')
+                ->paginate(3);
+        return view('Admin.Product.details', compact('pizza', 'reviews'));
     }
 
     //Update Page
