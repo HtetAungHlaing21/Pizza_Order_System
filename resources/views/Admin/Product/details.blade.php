@@ -79,7 +79,7 @@
                                                                     class="img-thumbnail" alt="female profile">
                                                             @endif
                                                         @else
-                                                            <img src="{{ asset('storage/' . $review->image) }}"
+                                                            <img src="{{ asset('storage/'.$review->image) }}"
                                                                 alt="" class="img-thumbnail">
                                                         @endif
                                                     </div>

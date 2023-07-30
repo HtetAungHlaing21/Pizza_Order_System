@@ -28,10 +28,6 @@
                     @endforeach
                 </div>
                 <!-- Categories End -->
-
-                <div class="">
-                    <button class="btn btn btn-warning w-100">Order</button>
-                </div>
                 <!-- Size End -->
             </div>
             <!-- Shop Sidebar End -->
@@ -66,15 +62,6 @@
                                         <option value="desc">Latest to Oldest</option>
                                         <option value="asc">Oldest to Latest</option>
                                     </select>
-                                </div>
-                                <div class="btn-group ml-2">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                        data-toggle="dropdown">Showing</button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">10</a>
-                                        <a class="dropdown-item" href="#">20</a>
-                                        <a class="dropdown-item" href="#">30</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

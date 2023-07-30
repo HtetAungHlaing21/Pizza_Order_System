@@ -55,7 +55,7 @@ class ProductController extends Controller
         $pizza = Product::select('products.*', 'categories.name as category_name')
                 ->leftJoin('categories', 'products.category_id', 'categories.id')
                 ->where('products.id', $id)->first();
-        $reviews = Rating::select('ratings.*', 'users.name', 'users.gender')
+        $reviews = Rating::select('ratings.*', 'users.name', 'users.gender', 'users.image')
                 ->leftJoin('users', 'users.id', 'ratings.user_id')
                 ->where('ratings.product_id', $id)
                 ->orderBy('ratings.created_at', 'desc')
